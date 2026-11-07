@@ -64,3 +64,35 @@ Portfolio visuals are presentation mock-ups. The hospitality item is explicitly 
 - `index.html`: page title, description and favicon.
 
 `npm run build` creates the production `dist/` folder. Do not commit `node_modules/`.
+
+
+## Version 1.1 — scrolling and project information update
+
+- Removed the continuous canvas renderer (6,240 polygons built and sorted per animation frame).
+- Replaced it with a pre-rendered local SVG image and lightweight CSS transform motion.
+- Native scrolling: no smooth-scroll override, wheel listener or automatic scrolling when service choices change.
+- Decorative animation pauses outside the viewport and when the document is hidden. Reduced-motion preferences disable it.
+- Seven detailed service guides explain use cases, deliverables, customer inputs, scoping and a sensible first version.
+- Added package inclusions, extra-cost explanations, delivery expectations and post-launch support information.
+- Added a React project starter for every service, with a live summary, optional preferences, downloadable brief and prefilled email draft.
+- Email and phone remain faheem@devma.it and +39 348 845 4242.
+
+## Update your existing GitHub/Vercel project
+
+Copy the contents of this `devma-react` folder into your existing local project directory, replacing matching files and adding the new files. Preserve your existing `.git` folder. Do not create a nested `devma-react/devma-react` directory.
+
+The new `public/devma-loop.svg` asset and the new components in `src/` must be included.
+
+```sh
+npm ci
+npm run build
+git add .
+git commit -m "Improve scrolling performance and expand project information"
+git push
+```
+
+If your Vercel project is connected to that production branch, this push uses the existing deployment setup. No DNS changes or environment variables are required by this update. The ZIP itself does not modify your live site.
+
+## Validation notes
+
+The production build and browser checks cover the service guide, service-to-planner handoff, reactive project summary, brief download, estimator and package detail disclosures. Browser inspection confirms native scrolling, no canvas and offscreen motion pausing. A 390px embedded viewport check covers mobile menu navigation, service selection, planner handoff and absence of horizontal page overflow. No numeric performance improvement or specific device frame rate is claimed; test the deployed update on your own phone and computer too.
