@@ -1,98 +1,138 @@
-# Devma — React website
+# Devma — Sito React bilingue / Bilingual React website
 
-A complete React + Vite frontend for devma.it. No Sites hosting dependency, API keys or environment variables are required to build it.
+Versione 1.5.0. Sito completo in italiano e inglese, con scelta automatica della lingua su Vercel in base al Paese della connessione.
 
-## Run locally
+## Avvio locale
 
-Use Node.js 22.12 or newer.
+Usa Node.js 22.12 o successivo.
 
 ```sh
-npm install
+npm ci
 npm run dev
 ```
 
-Production check:
+Verifica di produzione:
 
 ```sh
 npm run build
 npm run preview
 ```
 
-## Deploy on Vercel
+## Aggiornare il progetto esistente
 
-1. Unzip this project.
-2. Upload the contents of the `devma-react` folder to a GitHub repository. `package.json`, `index.html` and `src/` must be at the repository root. Include `.gitignore`.
-3. Import that repository into Vercel.
-4. Select **Vite**. Build command: `npm run build`. Output directory: `dist`. Select Node.js 22.x or newer.
-5. Deploy. No environment variables are needed.
-6. Add `devma.it` in the Vercel project's Domains settings and apply the exact DNS records Vercel supplies at your domain provider.
+Copia il contenuto della cartella `devma-react` nella cartella del tuo progetto, sostituendo i file corrispondenti e aggiungendo quelli nuovi. Mantieni la cartella `.git` esistente. Non creare una seconda cartella `devma-react` al suo interno.
 
-If you upload the enclosing folder instead, set the Vercel Root Directory to `devma-react`.
-
-## Included services
-
-- Websites, online shops and booking journeys.
-- Web apps and mobile apps.
-- AI chatbots and customer support assistants.
-- RAG systems: search and answers grounded in company documents, with references.
-- AI automation: enquiry classification, draft responses and connected workflows, with human checks.
-- Business workflow automation.
-- IoT automation: devices, sensors and alerts.
-- Blockchain systems: verifiable records, digital ownership and smart contracts.
-
-These are descriptions of services Devma offers. The frontend does not itself run an AI model, RAG engine, chatbot backend, device platform or blockchain network.
-
-## Interactions
-
-Animated canvas artwork, interactive service explanations, portfolio dialogs, responsive mobile navigation, package selection, live pricing, page count and add-ons, copy/download brief, email-draft enquiry flow, brief downloads and FAQ disclosures.
-
-## Before accepting real enquiries
-
-Contact details: **faheem@devma.it** and **+39 348 845 4242**. Clickable email and phone links are included. The enquiry form opens the visitor’s email app with a prefilled draft to faheem@devma.it; they must review and press Send. A download option is also available. There is no server-side email sending or lead database. A configured email app is required for the draft flow. Never put secret email/API credentials into client-side code.
-
-Pricing is proposed, non-binding project pricing: Launch €490 / Business €990 / Shop €1,790. Additional pages €90, writing support €180, second language €220 and booking integration €150. Confirm your actual prices, scope and tax wording before launch.
-
-The final business identity and full privacy notice need completing; the supplied contact details are included. Fonts load from Google Fonts. No analytics or advertising scripts are included.
-
-Portfolio visuals are presentation mock-ups. The hospitality item is explicitly labelled as a design concept. Review project descriptions and permissions before using them publicly.
-
-## Editing
-
-- `src/App.jsx`: website markup and copy.
-- `src/styles.css`: responsive visual design.
-- `src/interactions.js`: interactive service copy, project details, estimator logic, brief generation and canvas animation.
-- `index.html`: page title, description and favicon.
-
-`npm run build` creates the production `dist/` folder. Do not commit `node_modules/`.
-
-
-## Version 1.1 — scrolling and project information update
-
-- Removed the continuous canvas renderer (6,240 polygons built and sorted per animation frame).
-- Replaced it with a pre-rendered local SVG image and lightweight CSS transform motion.
-- Native scrolling: no smooth-scroll override, wheel listener or automatic scrolling when service choices change.
-- Decorative animation pauses outside the viewport and when the document is hidden. Reduced-motion preferences disable it.
-- Seven detailed service guides explain use cases, deliverables, customer inputs, scoping and a sensible first version.
-- Added package inclusions, extra-cost explanations, delivery expectations and post-launch support information.
-- Added a React project starter for every service, with a live summary, optional preferences, downloadable brief and prefilled email draft.
-- Email and phone remain faheem@devma.it and +39 348 845 4242.
-
-## Update your existing GitHub/Vercel project
-
-Copy the contents of this `devma-react` folder into your existing local project directory, replacing matching files and adding the new files. Preserve your existing `.git` folder. Do not create a nested `devma-react/devma-react` directory.
-
-The new `public/devma-loop.svg` asset and the new components in `src/` must be included.
+Includi anche `public/devma-loop.svg`.
 
 ```sh
 npm ci
 npm run build
 git add .
-git commit -m "Improve scrolling performance and expand project information"
+git commit -m "Add Italian and English with country-based language routing"
 git push
 ```
 
-If your Vercel project is connected to that production branch, this push uses the existing deployment setup. No DNS changes or environment variables are required by this update. The ZIP itself does not modify your live site.
+Il sito in produzione cambia dopo la distribuzione del nuovo commit. Non occorre modificare il DNS per questo aggiornamento.
 
-## Validation notes
+## Prima distribuzione su Vercel
 
-The production build and browser checks cover the service guide, service-to-planner handoff, reactive project summary, brief download, estimator and package detail disclosures. Browser inspection confirms native scrolling, no canvas and offscreen motion pausing. A 390px embedded viewport check covers mobile menu navigation, service selection, planner handoff and absence of horizontal page overflow. No numeric performance improvement or specific device frame rate is claimed; test the deployed update on your own phone and computer too.
+1. Inserisci i file nel repository GitHub. `package.json`, `index.html`, `src/`, `public/`, `it/`, `en/` e `vercel.json` devono trovarsi nella cartella principale del progetto.
+2. Importa il repository in Vercel.
+3. Seleziona Vite. Comando di compilazione: `npm run build`. Cartella di output: `dist`. Node.js: 22.x o successivo.
+4. Se il repository contiene una cartella esterna `devma-react`, selezionala come Root Directory.
+5. Per i moduli diretti configura le variabili server indicate in `RESEND_SETUP.md`.
+6. Per il dominio, aggiungi `devma.it` e `www.devma.it` nelle impostazioni del progetto Vercel e usa i record DNS indicati da Vercel. Mantieni i record email esistenti presso IONOS.
+
+## Contenuti e funzionalità
+
+- Siti web e negozi online.
+- Applicazioni web e mobile.
+- Chatbot con intelligenza artificiale.
+- Sistemi RAG e ricerca nei documenti con riferimenti alle fonti.
+- Automazione IA e dei processi aziendali.
+- IoT e dispositivi connessi.
+- Sistemi blockchain.
+
+Ogni servizio ha una guida con esempi, possibili consegne, informazioni richieste al cliente, criteri di costo e un primo passo consigliato.
+
+Sono inclusi calcolatore dei pacchetti, dettagli espandibili, richiesta di portfolio tramite modulo, guida al progetto, riepilogo interattivo, download dei riepiloghi e invio diretto tramite Resend. Tutti i testi visibili, i messaggi, le descrizioni accessibili, i metadati e i riepiloghi generati sono disponibili in entrambe le lingue. I prezzi numerici sono invariati; gli importi usano il formato della lingua selezionata.
+
+## Contatti e richieste
+
+Email: **faheem@devma.it**. Telefono: **+39 348 845 4242**.
+
+I due moduli inviano le richieste direttamente dal sito tramite una funzione Vercel e Resend, senza aprire la posta del visitatore. Il server usa un mittente verificato e imposta l’email del cliente come Reply-To. La stima del sito viene ricalcolata dal server.
+
+Per attivare l’invio, verifica un dominio mittente in Resend e configura `RESEND_API_KEY`, `RESEND_FROM` e `CONTACT_TO` su Vercel, poi esegui una nuova distribuzione. Consulta **RESEND_SETUP.md** per tutti i passaggi. Non inserire chiavi nella chat, nel codice client o in GitHub. Il file `.env.example` contiene solo esempi.
+
+L’invio riesce solo quando Resend accetta la richiesta. In caso di errore i dati restano nel modulo e viene mostrato un messaggio nella lingua scelta. Le opzioni di download non inviano nulla. Non viene aggiunto un database delle richieste. Dopo l’accettazione della notifica viene tentato l’invio di una conferma automatica al cliente nella lingua scelta. I collegamenti diretti email e telefono restano disponibili.
+
+## Prezzi
+
+Stime orientative: Essenziale 490 €, Professionale 990 €, Negozio 1.790 €. Pagina aggiuntiva 90 €, supporto ai testi 180 €, seconda lingua 220 €, integrazione prenotazioni 150 €. Attività definitive, trattamento fiscale, tempi, revisioni e condizioni vanno concordati nel preventivo.
+
+Dominio, hosting, servizi esterni, commissioni e assistenza continuativa sono separati salvo accordi espliciti. L’identità aziendale e l’informativa privacy definitiva devono essere completate prima della pubblicazione commerciale.
+
+## Prestazioni
+
+Scorrimento nativo, senza gestione personalizzata della rotella o animazioni di scorrimento. La precedente animazione canvas continua è sostituita da un’immagine SVG locale con movimento CSS leggero. Le animazioni decorative si fermano fuori dalla parte visibile o quando la scheda è nascosta; viene rispettata la preferenza per movimento ridotto.
+
+## Lingua automatica / Automatic language selection
+
+Quando un visitatore apre `https://devma.it/`:
+
+| Paese rilevato da Vercel | Destinazione | Lingua |
+| --- | --- | --- |
+| Italia (`IT`) | `/it/` | Italiano |
+| Qualsiasi altro Paese | `/en/` | Inglese |
+| Paese non disponibile | `/en/` | Inglese |
+
+La scelta usa l’intestazione geografica `x-vercel-ip-country` aggiunta da Vercel, non la lingua del browser. Non richiede permessi di localizzazione, servizi geografici esterni, chiavi API o cookie. Il Paese stimato dipende dalla connessione: una VPN o un proxy può cambiare il Paese rilevato.
+
+Le regole si trovano in `vercel.json` e si applicano solo all’ingresso `/`. I reindirizzamenti sono temporanei; il percorso iniziale è configurato per non essere memorizzato nella cache. I percorsi espliciti `/it/` e `/en/` restano accessibili da qualsiasi Paese. I pulsanti IT/EN permettono di cambiare lingua e mantengono la sezione corrente. Tornando all’indirizzo principale, la lingua viene nuovamente scelta dal Paese.
+
+**Importante:** inserisci anche le cartelle `it/` e `en/` e il file `vercel.json` nel repository. Senza questi file la selezione automatica non è completa.
+
+Le regole geografiche funzionano dopo la pubblicazione su Vercel. `npm run dev` e `npm run preview` non simulano il Paese: in locale apri `/it/` o `/en/` per controllare le lingue; la pagina `/` usa l’inglese come alternativa.
+
+## English deployment notes
+
+Opening the root URL on Vercel redirects visitors detected in Italy to Italian and all other or unknown countries to English. Detection uses Vercel’s country header, not browser language. VPNs and proxies can affect the detected country. Direct `/it/` and `/en/` links and the IT/EN switch remain available worldwide.
+
+Push the **entire project**, including `vercel.json`, `it/`, `en/`, `src/` and `public/`. Use the existing Vite configuration, build command `npm run build` and output `dist`. Direct form delivery requires the server-only Resend variables documented in RESEND_SETUP.md. Website DNS stays unchanged; verify the Resend sending subdomain using its requested records. Real country detection must be checked on the deployed Vercel site; local Vite previews do not emulate Vercel’s geographic headers.
+
+## Modifiche / Source map
+
+- `src/App.jsx`: caricamento della lingua della pagina / language entry.
+- `src/LanguageSwitch.jsx`: selettore IT/EN.
+- `src/locales/it/`: contenuti e interazioni in italiano.
+- `src/locales/en/`: contenuti e interazioni in inglese.
+- `src/styles.css`: grafica condivisa e adattamento agli schermi.
+- `it/index.html`, `en/index.html`: lingua, metadati e collegamenti alle versioni alternative.
+- `index.html`: pagina inglese di riserva per l’anteprima locale.
+- `vite.config.js`: compilazione delle tre pagine di ingresso.
+- `vercel.json`: reindirizzamenti in base al Paese e impostazioni di pubblicazione.
+
+Build di produzione verificata. Verifiche locali sui contenuti React di entrambe le lingue, sette servizi, contatti, selettore di lingua e regole geografiche per Italia, altri Paesi e Paese sconosciuto. Il comportamento geografico effettivo richiede la nuova pubblicazione su Vercel.
+
+Riferimento ufficiale: https://vercel.com/docs/project-configuration/vercel-json#redirects-examples
+
+Il portfolio pubblico con nomi, immagini e descrizioni dei progetti è stato sostituito da un invito a richiedere esempi tramite modulo. I servizi IA sono presentati come offerta professionale: il sito non contiene di per sé un motore IA, RAG, piattaforma IoT o rete blockchain.
+
+## Versione 1.3.1
+
+Portfolio disponibile su richiesta. Rimossi i progetti pubblici, le rappresentazioni grafiche e le descrizioni di Al-Burhaniya, eSibha e del concept per la ristorazione. La sezione e i collegamenti di navigazione invitano a scrivere a faheem@devma.it per esempi pertinenti, in entrambe le lingue.
+
+## Versione 1.4.0 — Resend
+
+Nuovi file: `api/contact.js`, `server/enquiry.js`, `src/enquiryClient.js`, `.env.example`, `RESEND_SETUP.md` e `tests/`. Includili tutti nel repository. `npm test` verifica invio simulato, validazione, Reply-To, prezzi ricalcolati, errori e idempotenza senza inviare email reali. La verifica di recapito reale richiede le tue credenziali Resend e una nuova pubblicazione su Vercel.
+
+## Versione 1.5.0 — Un percorso più curato
+
+Conferma email personalizzata, in italiano e inglese, con riferimento DVM e possibilità di rispondere direttamente a Faheem. L’email ringrazia il cliente e conferma che riceverà una risposta, senza promettere tempi non concordati. Le anteprime sono in `email-previews/`.
+
+Il sito include ora un modulo guidato in tre passaggi, una ricevuta con prossimi passi, un calcolatore React con controlli sulle pagine e riepilogo dei prezzi, navigazione fissa con sezione attiva e una presentazione del contatto diretto Faheem. I progetti del portfolio restano rimossi; la richiesta di esempi apre il modulo. Prezzi, sette servizi e selezione della lingua per Paese restano invariati.
+
+L’email al cliente viene tentata soltanto dopo l’accettazione della notifica a Devma. Se la conferma non parte, la richiesta principale resta ricevuta e l’interfaccia lo spiega correttamente. Non viene aggiunta una coda persistente per ritentare le conferme. Le dieci verifiche automatiche coprono entrambi gli invii, la gestione degli errori, la sicurezza dei template e la corrispondenza dei prezzi tra client e server.
+
+Nuovi componenti condivisi: `src/EstimateBuilder.jsx`, `src/pricing.js`, `src/EnquiryReceipt.jsx`, `src/ProjectPartner.jsx`. Per applicare l’aggiornamento copia l’intero progetto, mantieni `.git`, esegui `npm test` e `npm run build`, poi pubblica il commit. Le variabili Resend restano le stesse. Il recapito reale deve essere verificato dopo la configurazione e la pubblicazione.

@@ -1,0 +1,4 @@
+export default function ProjectPartner({language}) {
+ const it=language==='it';
+ return <section className="partner-section wrap" aria-labelledby="partner-title"><div className="partner-identity"><span className="partner-monogram" aria-hidden="true">f.</span><div><p className="eyebrow">{it?'IL TUO CONTATTO DIRETTO':'YOUR DIRECT POINT OF CONTACT'}</p><h2 id="partner-title">Faheem, Devma.</h2></div></div><div className="partner-copy"><p>{it?'Puoi partire da una domanda, non da una soluzione già pronta. Raccontami cosa vorresti migliorare: definiamo insieme un primo passo concreto, con attività e costi chiari.':'You can start with a question, rather than a finished solution. Tell me what you’d like to improve, and we’ll work out a practical first step with clear scope and costs.'}</p><a href="mailto:faheem@devma.it">faheem@devma.it <span>→</span></a><a href="tel:+393488454242">+39 348 845 4242</a></div></section>;
+}
