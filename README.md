@@ -1,6 +1,6 @@
 # Devma — Sito React bilingue / Bilingual React website
 
-Versione 1.5.0. Sito completo in italiano e inglese, con scelta automatica della lingua su Vercel in base al Paese della connessione.
+Versione 1.5.1. Sito completo in italiano e inglese, con scelta automatica della lingua su Vercel in base al Paese della connessione.
 
 ## Avvio locale
 
@@ -136,3 +136,9 @@ Il sito include ora un modulo guidato in tre passaggi, una ricevuta con prossimi
 L’email al cliente viene tentata soltanto dopo l’accettazione della notifica a Devma. Se la conferma non parte, la richiesta principale resta ricevuta e l’interfaccia lo spiega correttamente. Non viene aggiunta una coda persistente per ritentare le conferme. Le dieci verifiche automatiche coprono entrambi gli invii, la gestione degli errori, la sicurezza dei template e la corrispondenza dei prezzi tra client e server.
 
 Nuovi componenti condivisi: `src/EstimateBuilder.jsx`, `src/pricing.js`, `src/EnquiryReceipt.jsx`, `src/ProjectPartner.jsx`. Per applicare l’aggiornamento copia l’intero progetto, mantieni `.git`, esegui `npm test` e `npm run build`, poi pubblica il commit. Le variabili Resend restano le stesse. Il recapito reale deve essere verificato dopo la configurazione e la pubblicazione.
+
+## Versione 1.5.1 — Moduli e diagnostica
+
+I messaggi di errore del modulo sono ora visibili sopra il pulsante di invio, ricevono il focus e vengono portati nella parte visibile della finestra. La conferma di successo riporta la finestra all’inizio. Le richieste di portfolio non includono una stima per impostazione predefinita. La generazione del riferimento funziona anche quando manca crypto.randomUUID, grazie a getRandomValues. Le eccezioni durante la preparazione della richiesta sono gestite e non lasciano il modulo bloccato.
+
+Sono aggiunte prove di interazione DOM con React e jsdom: clic sul pulsante, stato di invio, ricevuta, errori di configurazione visibili, tentativo successivo, stato del calcolatore, identificativi alternativi e percorso guidato in entrambe le lingue. Le prove non inviano email reali.

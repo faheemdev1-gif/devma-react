@@ -22,7 +22,7 @@ const dialogTitle=$('#brief-dialog h2').innerHTML;
 const sendButton=$('#brief-form button[value="send"]');
 function openBrief(include){
   $('#brief-form').elements.include.checked=include;
-  if (!formPending) { $('#brief-form').hidden=false; $('#brief-dialog .dialog-intro').hidden=false; $('#brief-dialog h2').innerHTML=dialogTitle; $('#form-status').classList.remove('modal-receipt'); $('#form-status').textContent=''; formDelivered=false; formRequestId=null; sendButton.disabled=false; sendButton.textContent=formText.send; }
+  if (!formPending) { sendButton.before($('#form-status')); $('#form-status').setAttribute('role','status'); $('#brief-form').hidden=false; $('#brief-dialog .dialog-intro').hidden=false; $('#brief-dialog h2').innerHTML=dialogTitle; $('#form-status').classList.remove('modal-receipt','is-error'); $('#form-status').textContent=''; formDelivered=false; formRequestId=null; sendButton.disabled=false; sendButton.textContent=formText.send; }
   $('#brief-dialog').showModal();
 }
 $('#brief-button').onclick=()=>openBrief(true);$('#contact-button').onclick=()=>openBrief(false);
@@ -33,13 +33,14 @@ $('#brief-form').onsubmit=async e=>{
   const f=new FormData(e.target);
   if(e.submitter?.value==='download'){download(`Devma\n\n${f.get('name')}\n${f.get('email')}\n\n${f.get('idea')}\n\n${f.get('include')?brief():''}`,'devma-project-brief.txt');$('#form-status').textContent=formText.download;return;}
   if(formPending||formDelivered)return;
-  formPending=true;formRequestId ||= createRequestId();sendButton.disabled=true;sendButton.textContent=formText.sending;$('#form-status').textContent='';$('#brief-form').setAttribute('aria-busy','true');
-  const current=estimate();
-  const estimateData=f.get('include')?{packageId:current.packageId,pages:current.pages,addons:current.addons}:null;
+  formPending=true;sendButton.disabled=true;sendButton.textContent=formText.sending;$('#form-status').textContent='';$('#form-status').classList.remove('is-error');$('#brief-form').setAttribute('aria-busy','true');
   try{
+    formRequestId ||= createRequestId('en');
+    const current=estimate();
+    const estimateData=f.get('include')?{packageId:current.packageId,pages:current.pages,addons:current.addons}:null;
     const receipt=await sendEnquiry({locale:'en',kind:estimateData?'website':'contact',name:f.get('name'),email:f.get('email'),message:f.get('idea'),service:estimateData?'website':'unsure',estimate:estimateData,website:f.get('website')||'',requestId:formRequestId});
-    formDelivered=true;sendButton.textContent=formText.sent;$('#brief-form').hidden=true;$('#brief-dialog .dialog-intro').hidden=true;$('#brief-dialog h2').textContent='Thank you. We’re listening.';$('#form-status').classList.add('modal-receipt');$('#form-status').textContent=`✓ Request received\n\nYour reference: ${receipt.reference}\n\nFaheem will review your enquiry and reply to ${f.get('email')}.\n\n${receipt.confirmationSent?'We’ve also sent a confirmation email. Please check your spam folder if you don’t see it.':'Your enquiry was received, but the confirmation email may not arrive. We can still reply to you.'}\n\nNext: we clarify your goal and agree a practical way forward.`;
-  }catch(error){sendButton.disabled=false;sendButton.textContent=formText.send;$('#form-status').textContent=error.message;}
+    formDelivered=true;sendButton.textContent=formText.sent;$('#brief-form').after($('#form-status'));$('#brief-form').hidden=true;$('#brief-dialog').scrollTop=0;$('#brief-dialog .dialog-intro').hidden=true;$('#brief-dialog h2').textContent='Thank you. We’re listening.';$('#form-status').classList.add('modal-receipt');$('#form-status').textContent=`✓ Request received\n\nYour reference: ${receipt.reference}\n\nFaheem will review your enquiry and reply to ${f.get('email')}.\n\n${receipt.confirmationSent?'We’ve also sent a confirmation email. Please check your spam folder if you don’t see it.':'Your enquiry was received, but the confirmation email may not arrive. We can still reply to you.'}\n\nNext: we clarify your goal and agree a practical way forward.`;
+  }catch(error){sendButton.disabled=false;sendButton.textContent=formText.send;const notice=$('#form-status');notice.classList.add('is-error');notice.setAttribute('role','alert');notice.textContent=error.message;notice.focus({preventScroll:true});notice.scrollIntoView({block:'nearest',behavior:'auto'});}
   finally{formPending=false;$('#brief-form').setAttribute('aria-busy','false');}
 };
 $$('dialog .close,dialog .close-secondary').forEach(b=>b.onclick=()=>b.closest('dialog').close());$$('dialog').forEach(d=>d.addEventListener('click',e=>{if(e.target===d){const r=d.getBoundingClientRect();if(e.clientX<r.left||e.clientX>r.right||e.clientY<r.top||e.clientY>r.bottom)d.close()}}));$('#privacy-button').onclick=()=>{$('#modal-category').textContent='PRIVACY';$('#modal-title').textContent='Your information, kept simple.';$('#modal-description').textContent='When you submit a form, your name, email and project details are processed by the website hosting provider and Resend to deliver your enquiry to Devma. We use them to respond to your request. Downloading a brief does not send it. No analytics or advertising scripts have been added.';$('#modal-extra').innerHTML='<p>Fonts are requested from Google Fonts. Hosting providers may process technical request information to serve the website. Contact: <a href="mailto:faheem@devma.it">faheem@devma.it</a>, +39 348 845 4242. The final privacy notice must identify the business controller and explain email processing and retention before public launch.</p>';$('#project-dialog').showModal()};

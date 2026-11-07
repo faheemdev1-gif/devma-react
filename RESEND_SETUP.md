@@ -90,3 +90,19 @@ Official references:
 - A visible receipt shows the request reference and next steps.
 
 No new environment variables are required beyond the previous Resend setup. Re-upload the full project, including the new server/emailTemplates.js and shared src components, and redeploy. Real delivery to both inboxes must be verified on your configured deployment.
+
+## If Send appears to do nothing (version 1.5.1)
+
+The form should show Sending / Invio in corso, then either a receipt or a visible error above the button. It does not navigate to another website page. On success the dialog changes into a receipt; on failure the inputs stay available for correction or retry.
+
+| Visible code | What to check in the deployed project |
+| --- | --- |
+| FORM_CONFIG | RESEND_API_KEY and RESEND_FROM are set for Production and a new deployment was created; also verify the API key is valid. |
+| FORM_SENDER | RESEND_FROM uses the exact sending domain verified in Resend. |
+| FORM_ENDPOINT | The api/ and server/ folders were pushed, the Vercel Root Directory is correct, and the function deployed. |
+| FORM_ORIGIN | Open devma.it or www.devma.it; if using another legitimate hostname, add its exact origin to CONTACT_ALLOWED_ORIGINS and redeploy. |
+| FORM_NETWORK | Check the connection or any content blocker, then retry. |
+| FORM_BUSY | Wait briefly and retry; check Resend request limits. |
+| FORM_SEND | Inspect Vercel function logs and Resend email status. The backend logs a reference, provider status and error name without the API key or customer message. |
+
+A screenshot of the visible code is sufficient for initial troubleshooting; never share API keys. Automated interaction tests cannot prove live DNS, environment-variable configuration or delivery to an inbox.

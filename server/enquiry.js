@@ -79,7 +79,12 @@ export async function processEnquiry({ method, headers, body }, { env = process.
       body: JSON.stringify({ from, to: [to], reply_to: data.email, subject: mail.subject, text: mail.text + '\n\n' + reference, html:notificationHtml(mail,data,reference) }), signal: AbortSignal.timeout(10000),
     });
     const sent = await response.json().catch(() => null);
-    if (!response.ok || typeof sent?.id !== 'string') return result(response.status===429?429:502, response.status===429?'busy':'send_failed');
+    if (!response.ok || typeof sent?.id !== 'string' || !sent.id) {
+      const unverified = response.status === 403 && /domain|verif/i.test(String(sent?.message || ''));
+      const code = response.status===429 ? 'busy' : response.status===401 ? 'not_configured' : unverified ? 'sender_unverified' : 'send_failed';
+      console.error('devma_enquiry_delivery_failed', { reference, providerStatus:response.status, providerError:typeof sent?.name==='string'?sent.name:'unknown' });
+      return result(response.status===429?429:502,code);
+    }
     // Receipt failure must never turn an accepted business enquiry into a failed submission.
     const confirmation = confirmationEmail(data, reference);
     let confirmationSent = false;
