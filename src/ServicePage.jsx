@@ -1,0 +1,3 @@
+import {SiteHeader,SiteFooter,pathsFor} from './SiteChrome.jsx';
+import {homeCopy} from './homeCopy.js';
+export default function ServicePage({language,Guide}){const c=homeCopy[language],paths=pathsFor(language);return <><SiteHeader language={language}/><main className="detail-page"><section className="wrap detail-intro"><a className="text-link" href={paths.home}>← {c.backHome}</a><p className="eyebrow">DEVMA / {language==='it'?'TUTTI I SERVIZI':'ALL SERVICES'}</p><h1>{c.servicesPageTitle}</h1><p>{c.servicesPageIntro}</p></section><Guide language={language} homePath={paths.home}/></main><SiteFooter language={language}/></>;}

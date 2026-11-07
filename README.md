@@ -1,6 +1,6 @@
 # Devma — Sito React bilingue / Bilingual React website
 
-Versione 1.5.1. Sito completo in italiano e inglese, con scelta automatica della lingua su Vercel in base al Paese della connessione.
+Versione 1.6.0. Sito completo in italiano e inglese, con scelta automatica della lingua su Vercel in base al Paese della connessione.
 
 ## Avvio locale
 
@@ -28,7 +28,7 @@ Includi anche `public/devma-loop.svg`.
 npm ci
 npm run build
 git add .
-git commit -m "Add Italian and English with country-based language routing"
+git commit -m "Improve customer journeys, service pages and project enquiries"
 git push
 ```
 
@@ -71,7 +71,7 @@ L’invio riesce solo quando Resend accetta la richiesta. In caso di errore i da
 
 Stime orientative: Essenziale 490 €, Professionale 990 €, Negozio 1.790 €. Pagina aggiuntiva 90 €, supporto ai testi 180 €, seconda lingua 220 €, integrazione prenotazioni 150 €. Attività definitive, trattamento fiscale, tempi, revisioni e condizioni vanno concordati nel preventivo.
 
-Dominio, hosting, servizi esterni, commissioni e assistenza continuativa sono separati salvo accordi espliciti. L’identità aziendale e l’informativa privacy definitiva devono essere completate prima della pubblicazione commerciale.
+Dominio, hosting, servizi esterni, commissioni e assistenza continuativa sono separati salvo accordi espliciti. La pagina privacy descrive il funzionamento attuale. Consulta OWNER_INPUTS.md per verificare i dati aziendali e le condizioni commerciali prima di assumere impegni con i clienti.
 
 ## Prestazioni
 
@@ -110,7 +110,7 @@ Push the **entire project**, including `vercel.json`, `it/`, `en/`, `src/` and `
 - `src/styles.css`: grafica condivisa e adattamento agli schermi.
 - `it/index.html`, `en/index.html`: lingua, metadati e collegamenti alle versioni alternative.
 - `index.html`: pagina inglese di riserva per l’anteprima locale.
-- `vite.config.js`: compilazione delle tre pagine di ingresso.
+- `vite.config.js`: compilazione delle sette pagine di ingresso.
 - `vercel.json`: reindirizzamenti in base al Paese e impostazioni di pubblicazione.
 
 Build di produzione verificata. Verifiche locali sui contenuti React di entrambe le lingue, sette servizi, contatti, selettore di lingua e regole geografiche per Italia, altri Paesi e Paese sconosciuto. Il comportamento geografico effettivo richiede la nuova pubblicazione su Vercel.
@@ -142,3 +142,17 @@ Nuovi componenti condivisi: `src/EstimateBuilder.jsx`, `src/pricing.js`, `src/En
 I messaggi di errore del modulo sono ora visibili sopra il pulsante di invio, ricevono il focus e vengono portati nella parte visibile della finestra. La conferma di successo riporta la finestra all’inizio. Le richieste di portfolio non includono una stima per impostazione predefinita. La generazione del riferimento funziona anche quando manca crypto.randomUUID, grazie a getRandomValues. Le eccezioni durante la preparazione della richiesta sono gestite e non lasciano il modulo bloccato.
 
 Sono aggiunte prove di interazione DOM con React e jsdom: clic sul pulsante, stato di invio, ricevuta, errori di configurazione visibili, tentativo successivo, stato del calcolatore, identificativi alternativi e percorso guidato in entrambe le lingue. Le prove non inviano email reali.
+
+## Version 1.6.0 — Clearer customer journeys
+
+The homepage now focuses on small businesses and two starting points: business websites and practical AI/automation. Detailed guides for all seven service areas live at `/en/services/` and `/it/servizi/`. The homepage keeps the estimate builder, a three-stage enquiry planner, relevant private portfolio requests and direct contact with Faheem Mehmood.
+
+Project phases explain the tangible output of each step. The written quote checklist covers scope, responsibilities, costs, timeline, revisions, ownership and ongoing support without inventing contractual promises. Package prices are unchanged.
+
+Factual privacy pages are available at `/en/privacy/` and `/it/privacy/`; public draft editing notes are removed. No testimonials, client names or unsupported experience claims have been added. Review the private `OWNER_INPUTS.md` checklist for business facts only the owner can confirm.
+
+Shared components: `HomePage.jsx`, `homeCopy.js`, `SiteChrome.jsx`, `ServicePage.jsx`, `PrivacyPage.jsx`, `serviceOptions.js`. Guides are loaded separately from the homepage. All seven HTML entry pages are built by Vite. Language switches map the equivalent home, services and privacy pages.
+
+The working email API, server templates and enquiry client are unchanged. Keep your existing Vercel environment variables and DNS records. Replace the full project contents, preserve `.git`, then commit and push. The update requires a new Vercel deployment, not another Resend setup.
+
+Validation: 25 automated tests covering bilingual forms, error recovery, email logic, all pricing combinations, both service-page journeys, navigation and privacy content. Production build succeeds. Tests use simulated email responses and DOM interactions; they do not send real email or replace a visual browser review of the deployed site.

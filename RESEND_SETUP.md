@@ -4,14 +4,14 @@ The website forms send enquiries directly to `faheem@devma.it` using a server-si
 
 ## 1. Verify a sending domain
 
-1. Open https://resend.com/domains and add **notify.devma.it** as a sending domain.
+1. Open https://resend.com/domains and add **devma.it** as a sending domain.
 2. At IONOS, open Domains & SSL → devma.it → DNS.
-3. Add the exact sending-verification records Resend displays. Use the host names and values shown for this subdomain; do not guess them.
+3. Add the exact sending-verification records Resend displays. Use the host names and values shown for this domain; do not guess them.
 4. Wait until Resend shows the sending domain as verified.
 
-Use a separate sending subdomain so the existing IONOS mailbox remains in place. Preserve the existing root-domain MX records and existing email authentication records. You do **not** need to move incoming email to Resend or enable Resend inbound receiving. A Resend verification MX record, if requested, belongs at the precise return-path host Resend specifies, not at `@` unless you intentionally move incoming mail.
+The current setup uses the verified devma.it domain. Keep the working Vercel variables unchanged when updating this website. Preserve the existing root-domain MX records and existing email authentication records. You do **not** need to move incoming email to Resend or enable Resend inbound receiving. A Resend verification MX record, if requested, belongs at the precise return-path host Resend specifies, not at `@` unless you intentionally move incoming mail.
 
-Once `notify.devma.it` is verified for sending, use `Devma <website@notify.devma.it>` as the sender. This is a sending identity; the website sends to the existing `faheem@devma.it` mailbox. Customer email addresses are used as Reply-To, never as the sender.
+Once `devma.it` is verified for sending, use `Devma <website@devma.it>` as the sender. This is a sending identity; the website sends to the existing `faheem@devma.it` mailbox. Customer email addresses are used as Reply-To, never as the sender.
 
 If you verify a different domain instead, set RESEND_FROM to an address on that verified domain.
 
@@ -26,7 +26,7 @@ Project → Settings → Environment Variables:
 | Name | Value |
 | --- | --- |
 | `RESEND_API_KEY` | Your real Resend API key |
-| `RESEND_FROM` | `Devma <website@notify.devma.it>` |
+| `RESEND_FROM` | `Devma <website@devma.it>` |
 | `CONTACT_TO` | `faheem@devma.it` |
 
 Use Production for the live site. Add Preview too if you want to test preview deployments. Set the sender value without shell quote marks in the Vercel UI. Never prefix these variables with `VITE_`: they must stay server-only.

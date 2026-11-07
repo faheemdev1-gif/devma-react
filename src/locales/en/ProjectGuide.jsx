@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
 import { projectServices } from './projectContent.js';
 
-export default function ProjectGuide() {
-  const [selected, setSelected] = useState('website');
+export default function ProjectGuide({homePath}) {
+  const [selected, setSelected] = useState(()=>{const requested=typeof window==='undefined'?'website':new URLSearchParams(window.location.search).get('service');return projectServices.some(item=>item.id===requested)?requested:'website';});
   useEffect(() => {
     const choose = event => { if (projectServices.some(item => item.id === event.detail)) setSelected(event.detail); };
     window.addEventListener('devma:explore-service', choose);
@@ -33,7 +33,7 @@ export default function ProjectGuide() {
               <span>{item.icon}</span>{item.name}<b aria-hidden="true">→</b>
             </button>
           ))}
-          <p className="guide-help">Not sure which one fits?<br /><a href="#project-planner">Describe the problem instead →</a></p>
+          <p className="guide-help">Not sure which one fits?<br /><a href={homePath+'#project-planner'}>Describe the problem instead →</a></p>
         </div>
         <article className="guide-panel" id="guide-panel" role="tabpanel" aria-labelledby={`guide-tab-${service.id}`} tabIndex={0}>
           <p className="eyebrow">{service.name}</p><h3>{service.outcome}</h3><p className="guide-intro">{service.intro}</p>
@@ -41,7 +41,7 @@ export default function ProjectGuide() {
           <div className="guide-columns"><div><h4>What your project can include</h4><ul>{service.deliverables.map(text => <li key={text}>{text}</li>)}</ul></div><div><h4>What we need from you</h4><ul>{service.inputs.map(text => <li key={text}>{text}</li>)}</ul><p className="guide-reassurance">Missing something? Share what you have. We’ll identify the gaps together.</p></div></div>
           <details className="guide-details"><summary>Decisions we’ll help you make <span>+</span></summary><p>{service.decisions}</p></details>
           <div className="guide-cost"><h4>How we scope the cost</h4><p>{service.next}</p></div>
-          <div className="guide-first"><div><span>A SENSIBLE FIRST STEP</span><p>{service.first}</p></div><a className="button dark" href={`#project-planner`} onClick={() => window.dispatchEvent(new CustomEvent('devma:choose-service', { detail: service.id }))}>Plan this project <span>→</span></a></div>
+          <div className="guide-first"><div><span>A SENSIBLE FIRST STEP</span><p>{service.first}</p></div><a className="button dark" href={`${homePath}?service=${service.id}#project-planner`} onClick={() => window.dispatchEvent(new CustomEvent('devma:choose-service', { detail: service.id }))}>Plan this project <span>→</span></a></div>
         </article>
       </div>
     </section>

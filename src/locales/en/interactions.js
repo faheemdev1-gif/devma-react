@@ -2,17 +2,6 @@ import { getCurrentEstimate, websiteBrief } from '../../pricing.js';
 import { sendEnquiry, createRequestId } from '../../enquiryClient.js';
 export function initialiseSite() {
 const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
-$('#year').textContent=new Date().getFullYear();$('#menu').onclick=()=>{const open=$('nav').classList.toggle('open');$('#menu').setAttribute('aria-expanded',open)};$$('nav a').forEach(a=>a.onclick=()=>{$('nav').classList.remove('open');$('#menu').setAttribute('aria-expanded','false')});
-let overviewSelection=0;
-$('#service-guide-link').onclick=()=>window.dispatchEvent(new CustomEvent('devma:explore-service',{detail:['website','app','chatbot','automation','blockchain'][overviewSelection]}));
-const services=[
- ['A better first impression. A clearer next step.','From a polished business website to an online shop, we help visitors understand your value and know exactly how to get in touch or buy.',['Business websites','Online shops','Booking journeys'],'→','YOUR BUSINESS. OPEN TO POSSIBILITY.'],
- ['An easier day, in the palm of their hand.','Give customers or your team one simple place to book, manage tasks or access a service. We design around the people who will actually use it.',['Customer portals','Web apps','Mobile apps'],'⌘','LESS FRICTION. MORE POSSIBILITY.'],
- ['Useful answers, without the endless searching.','An AI assistant can answer common questions or help your team find information in your own documents. RAG systems ground answers in your knowledge, with sources and human checks.',['AI chatbots','RAG systems','Knowledge assistants'],'✦','YOUR KNOWLEDGE. EASIER TO FIND.'],
- ['Fewer manual steps. More time for your business.','AI automation can help sort enquiries, draft responses and move information between your tools, with human approval where it matters. Business automation handles repeatable steps, while IoT automation connects physical devices, sensors and alerts.',['AI automation','Workflow automation','IoT automation'],'⇄','THE RIGHT THINGS, WORKING TOGETHER.'],
- ['A shared record people can verify.','For the right use case, blockchain can help track ownership, verify certificates or record transactions across organisations. We first check whether it adds real value to your project.',['Verifiable records','Digital ownership','Smart contracts'],'◇','TRUST, BUILT INTO THE PROCESS.']
-];
-$$('.service').forEach(b=>b.onclick=()=>{$$('.service').forEach(x=>x.classList.remove('active'));b.classList.add('active');overviewSelection=+b.dataset.service;const d=services[overviewSelection];$('#service-title').textContent=d[0];$('#service-copy').textContent=d[1];$('#service-tags').replaceChildren(...d[2].map(t=>{const s=document.createElement('span');s.textContent=t;return s}));$('#demo-icon').textContent=d[3];$('#demo-label').textContent=d[4]});
 const estimate=()=>getCurrentEstimate();
 function brief(){return websiteBrief(getCurrentEstimate(),'en');}
 function download(text,name){const url=URL.createObjectURL(new Blob([text],{type:'text/plain;charset=utf-8'}));const a=document.createElement('a');a.href=url;a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);}
@@ -26,7 +15,7 @@ function openBrief(include){
   $('#brief-dialog').showModal();
 }
 $('#brief-button').onclick=()=>openBrief(true);$('#contact-button').onclick=()=>openBrief(false);
-$('#portfolio-request-button').onclick=()=>{openBrief(false);$('#brief-form').elements.idea.value='I’d like to see portfolio examples relevant to my business. My business is…';};
+$('#portfolio-request-button').onclick=()=>{openBrief(false);$('#brief-form').elements.idea.value='I’d like to request portfolio examples relevant to my industry and project. Please contact me to discuss them.';};
 $('#brief-form').addEventListener('input',()=>{if(formDelivered){formDelivered=false;formRequestId=null;sendButton.disabled=false;sendButton.textContent=formText.send;$('#form-status').textContent='';}});
 $('#brief-form').onsubmit=async e=>{
   e.preventDefault();
@@ -43,8 +32,7 @@ $('#brief-form').onsubmit=async e=>{
   }catch(error){sendButton.disabled=false;sendButton.textContent=formText.send;const notice=$('#form-status');notice.classList.add('is-error');notice.setAttribute('role','alert');notice.textContent=error.message;notice.focus({preventScroll:true});notice.scrollIntoView({block:'nearest',behavior:'auto'});}
   finally{formPending=false;$('#brief-form').setAttribute('aria-busy','false');}
 };
-$$('dialog .close,dialog .close-secondary').forEach(b=>b.onclick=()=>b.closest('dialog').close());$$('dialog').forEach(d=>d.addEventListener('click',e=>{if(e.target===d){const r=d.getBoundingClientRect();if(e.clientX<r.left||e.clientX>r.right||e.clientY<r.top||e.clientY>r.bottom)d.close()}}));$('#privacy-button').onclick=()=>{$('#modal-category').textContent='PRIVACY';$('#modal-title').textContent='Your information, kept simple.';$('#modal-description').textContent='When you submit a form, your name, email and project details are processed by the website hosting provider and Resend to deliver your enquiry to Devma. We use them to respond to your request. Downloading a brief does not send it. No analytics or advertising scripts have been added.';$('#modal-extra').innerHTML='<p>Fonts are requested from Google Fonts. Hosting providers may process technical request information to serve the website. Contact: <a href="mailto:faheem@devma.it">faheem@devma.it</a>, +39 348 845 4242. The final privacy notice must identify the business controller and explain email processing and retention before public launch.</p>';$('#project-dialog').showModal()};
-// Pause decorative CSS motion outside the viewport and in background tabs.
+$$('dialog .close,dialog .close-secondary').forEach(b=>b.onclick=()=>b.closest('dialog').close());$$('dialog').forEach(d=>d.addEventListener('click',e=>{if(e.target===d){const r=d.getBoundingClientRect();if(e.clientX<r.left||e.clientX>r.right||e.clientY<r.top||e.clientY>r.bottom)d.close()}}));// Pause decorative CSS motion outside the viewport and in background tabs.
 const navigationLinks=$$('nav a[href^="#"]');
 const sectionObserver=new IntersectionObserver(entries=>{
   for(const entry of entries)if(entry.isIntersecting){

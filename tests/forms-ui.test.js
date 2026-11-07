@@ -71,3 +71,31 @@ test('a network error and missing endpoint never silently leave the modal pendin
   globalThis.fetch=async()=>({ok:false,status:404,json:async()=>{throw Error('HTML page');}});await click(send);assert.match(document.getElementById('form-status').textContent,/FORM_ENDPOINT/);assert.equal(send.disabled,false);
  }finally{await unmount();}
 });
+
+for(const lang of ['en','it']){
+ test(`${lang}: commercial homepage has two paths and a clear section order`,async()=>{
+  dom.reconfigure({url:`https://devma.it/${lang}/`});await mount(lang);try{
+   assert.equal(document.querySelectorAll('.service-path').length,2);assert.equal(document.getElementById('project-guide'),null);
+   const expected=['services','work','builder','process','project-planner','contact'];let previous=null;
+   for(const id of expected){const node=document.getElementById(id);assert.ok(node,`Missing ${id}`);if(previous)assert.ok(previous.compareDocumentPosition(node)&dom.window.Node.DOCUMENT_POSITION_FOLLOWING);previous=node;}
+   assert.equal(document.querySelector('.advanced-services a').getAttribute('href'),lang==='it'?'/it/servizi/':'/en/services/');
+   assert.equal(document.querySelector('.privacy-link').getAttribute('href'),`/${lang}/privacy/`);
+   await click(document.querySelector('.commercial-hero .text-link'));assert.equal(document.getElementById('planner-service').value,'automation');
+   await click(document.getElementById('menu'));assert.equal(document.getElementById('menu').getAttribute('aria-expanded'),'true');await click(document.querySelector('nav a'));assert.equal(document.getElementById('menu').getAttribute('aria-expanded'),'false');
+  }finally{await unmount();}
+ });
+ test(`${lang}: dedicated service guide keeps all seven services and links to a preselected enquiry`,async()=>{
+  const route=lang==='it'?'servizi':'services';dom.reconfigure({url:`https://devma.it/${lang}/${route}/?service=rag`});await mount(lang);try{
+   assert.equal(document.querySelectorAll('[role="tab"]').length,7);assert.equal(document.getElementById('guide-tab-rag').getAttribute('aria-selected'),'true');
+   await click(document.getElementById('guide-tab-iot'));assert.equal(document.querySelector('.guide-first a').getAttribute('href'),`/${lang}/?service=iot#project-planner`);
+   assert.equal(document.querySelector('.language-switch a[lang="it"]').getAttribute('href'),'/it/servizi/?service=rag');
+   assert.equal(document.querySelector('.language-switch a[lang="en"]').getAttribute('href'),'/en/services/?service=rag');
+  }finally{await unmount();}
+  dom.reconfigure({url:`https://devma.it/${lang}/?service=iot#project-planner`});await mount(lang);try{assert.equal(document.getElementById('planner-service').value,'iot');}finally{await unmount();}
+ });
+ test(`${lang}: privacy is a real page with factual contact information and no public editing note`,async()=>{
+  dom.reconfigure({url:`https://devma.it/${lang}/privacy/`});await mount(lang);try{
+   const main=document.querySelector('main');assert.ok(main.textContent.includes('Faheem Mehmood'));assert.ok(main.textContent.includes('Resend'));assert.ok(main.textContent.includes('Vercel'));assert.ok(!main.textContent.includes('final privacy notice must'));assert.ok(!main.textContent.includes('Prima della pubblicazione definitiva'));assert.equal(document.querySelector('.language-switch a[lang="en"]').getAttribute('href'),'/en/privacy/');assert.equal(document.getElementById('brief-form'),null);
+  }finally{await unmount();dom.reconfigure({url:'https://devma.it/en/'});}
+ });
+}
